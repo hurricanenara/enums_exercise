@@ -123,7 +123,6 @@ export function getCars(): Car[] {}
 /*
 8. 다음 함수를 완성하세요.
   반환 타입 작성 후 함수에 적용.
-  in 키워드 사용 필수.
   Object.entries 사용 필수.
   무엇을 반환하는지 test spec 확인해보기.
 
