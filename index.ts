@@ -57,7 +57,7 @@ const inventory: Inventory = {
 */
 
 type TColor = {
-  [key in keyof typeof Color]: string[]
+  [key in keyof typeof Color]: string[];
 };
 
 const colors: TColor = {
@@ -88,7 +88,7 @@ const someTerminal: ColorKey = "Black";
 */
 
 export function getSum(number1: number, number2: number): number {
-  return number1 + number2
+  return number1 + number2;
 }
 
 /*
@@ -99,11 +99,11 @@ export function getSum(number1: number, number2: number): number {
 */
 
 export function isStatusPending(status: Status) {
-  return status === Status.Pending
+  return status === Status.Pending;
 }
 
 export function isStatusComplete(status: Status) {
-  return status === Status.Complete
+  return status === Status.Complete;
 }
 
 /*
@@ -120,13 +120,18 @@ export function isStatusComplete(status: Status) {
 
 // 반환 타입
 type StatusObject = {
-  [status in keyof typeof Status]: Status
+  [status in Status]?: string;
 };
 
-export function getStatusObject() {
-    return Object.entries(Status).reduce((pre, cur) => ({...pre, [cur[0]]: cur[1].toLowerCase()}), {})
+export function getStatusObject(): StatusObject {
+  return Object.values(Status).reduce<StatusObject>(
+    (obj: StatusObject, cur: Status) => {
+      obj[cur] = cur.toLowerCase();
+      return obj;
+    },
+    {}
+  );
 }
-
 
 /*
 7. 반환 타입을 반환하는 함수를 작성하세요.
@@ -134,7 +139,7 @@ export function getStatusObject() {
 */
 
 export function getCars(): Car[] {
-  return Object.values(Car) as Car[]
+  return Object.values(Car) as Car[];
 }
 
 /*
@@ -149,15 +154,13 @@ export function getCars(): Car[] {
 
 // 반환 타입
 type TProgrammingLanguages = {
-  [key: number]: ProgrammingLanguage
-}
+  [key: number]: ProgrammingLanguage;
+};
 
 export function getProgrammingLanguages(): TProgrammingLanguages[] {
-  const answer = []
-  for ( const [key, value] of Object.entries(ProgrammingLanguage)) {
-    answer.push({[value.length]: value})
-  }
-  return answer
+    return Object.entries(ProgrammingLanguage).map(([key, value]) => ({
+    [value.length]: value
+  }))
 }
 
 /*
@@ -165,12 +168,12 @@ export function getProgrammingLanguages(): TProgrammingLanguages[] {
 */
 
 type TOrder = {
-  [key in 'firstCar' | 'secondCar']: {
-    status: Status,
-    color: Color,
-    availableColors: Color[],
-    orderedBy: Customer
-  }
+  [key in "firstCar" | "secondCar"]: {
+    status: Status;
+    color: Color;
+    availableColors: Color[];
+    orderedBy: Customer;
+  };
 };
 
 const orders: TOrder = {
@@ -201,10 +204,10 @@ string 타입 사용 금지
 
 type TCustomerCar = {
   [x: number]: {
-    customerLastName: "skywalker" | "jedi",
-    car: Car,
-    carColor: keyof typeof Color
-  }
+    customerLastName: Customer['lastName'];
+    car: Car;
+    carColor: keyof typeof Color;
+  };
 };
 
 const customerCars: TCustomerCar = {
