@@ -50,15 +50,6 @@ const inventory: Inventory = {
     Truck: 'Black',
 };
 
-// type Inventory = {
-//     [key in Car]?: string;
-// };
-
-// const inventory: Inventory = {
-//     [Car.Sedan]: 'Red',
-//     [Car.Truck]: 'Black',
-// };
-
 /*
 2. 다음을 충족하는 타입을 완성하고 colors 객체에 타입을 반영하세요.
   Color enum 사용 필수.
@@ -69,7 +60,7 @@ type TColor = {
     -readonly [key in keyof typeof Color]: string[];
 };
 
-const colors = {
+const colors: TColor = {
     Red: ['red'],
     Blue: [],
     Black: ['obsidian', 'ink'],
@@ -129,11 +120,14 @@ export function isStatusComplete(status: Status): boolean {
 
 // 반환 타입
 type StatusObject = {
-    [key in Status]?: Status;
+    [key in Status]: string;
 };
 
 export function getStatusObject(): StatusObject {
-    const returnObject = Object.keys(Status).reduce((acc, key) => ({ ...acc, [key]: key.toLowerCase() }), {});
+    const returnObject = Object.values(Status).reduce((acc, key) => {
+        acc[key] = key.toLowerCase();
+        return acc;
+    }, {} as StatusObject);
     return returnObject;
 }
 /*
@@ -161,8 +155,8 @@ type TProgrammingLanguages = {
 };
 
 export function getProgrammingLanguages(): TProgrammingLanguages[] {
-    const arr: TProgrammingLanguages[] = Object.entries(ProgrammingLanguage).map((values) => {
-        return { [values[0].length]: values[1] };
+    const arr: TProgrammingLanguages[] = Object.entries(ProgrammingLanguage).map(([key, value]) => {
+        return { [key.length]: value };
     });
     return arr;
 }
@@ -208,13 +202,13 @@ string 타입 사용 금지
 
 type TCustomerCar = {
     [id: number]: {
-        customberLastName: Customer;
+        customerLastName: Customer['lastName'];
         car: Car;
         carColor: keyof typeof Color;
     };
 };
 
-const customerCars = {
+const customerCars: TCustomerCar = {
     1: {
         customerLastName: 'skywalker',
         car: Car.Coupe,
