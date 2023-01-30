@@ -128,12 +128,15 @@ export function getStatusObject(): StatusObject {
 
   // reduce(_, status) -> entries 함수를 만나 (string, status)[] 형태로 변하여, string을 _ 로 숨겨주고,
   // status를 구조분해할당으로 []로 감싸고, Object.assign()으로 소문자로 변환한 key:value를 새로운 객체(acc)로 복사
-  return Object.entries(Status).reduce((acc, [ _string, status]) => {
-    return Object.assign(acc, {[status]: status.toLocaleLowerCase()})}, {} as StatusObject)
+//   return Object.entries(Status).reduce((acc, [ _string, status]) => {
+//     return Object.assign(acc, {[status]: status.toLocaleLowerCase()})}, {} as StatusObject)
+// }
+
+const result = Object.keys(Status).reduce((acc, key) => ({ ...acc, [key]: key.toLowerCase() }), {});
+
+return result as StatusObject
 }
 
-//   return Object.keys(Status).reduce((acc, cur) => ({ ...acc, cur: cur.toLowerCase()}), {})
-// }
 
 
 
