@@ -98,13 +98,11 @@ export function getSum(a: number, b: number): number {
 */
 
 export function isStatusPending(status: Status): boolean{
-  if (status == Status.Initialized) return false;
-  return true
+  return status == Status.Initialized ? false : true
 }
 
 export function isStatusComplete(status: Status): boolean{
-  if (status === Status.Pending) return false;
-  return true
+  return status == Status.Pending ? false : true
 }
 
 /*
@@ -121,21 +119,23 @@ export function isStatusComplete(status: Status): boolean{
 
 // 반환 타입
 type StatusObject = {
-  [k in Status]?: keyof typeof Status;
+  [k in Status]: keyof typeof Status;
 };
 
 export function getStatusObject(): StatusObject {
-  // const result = Object.entries(Status).reduce(
-  //   (accu, curr) => ({ ...accu, [curr[0]]: curr[1].toLocaleLowerCase() }),
-  //   {}
-  // );
-  // return result;
+  // return Object.entries(Status).reduce((acc, cur) => ({ ...acc, [cur[0]]: cur[1].toLocaleLowerCase()}), {});
+// }
 
   // reduce(_, status) -> entries 함수를 만나 (string, status)[] 형태로 변하여, string을 _ 로 숨겨주고,
   // status를 구조분해할당으로 []로 감싸고, Object.assign()으로 소문자로 변환한 key:value를 새로운 객체(acc)로 복사
-    return Object.entries(Status).reduce((acc, [ _string, status]) => {
-      return Object.assign(acc, {[status]: status.toLocaleLowerCase()})}, {} as StatusObject)
+  return Object.entries(Status).reduce((acc, [ _string, status]) => {
+    return Object.assign(acc, {[status]: status.toLocaleLowerCase()})}, {} as StatusObject)
 }
+
+//   return Object.keys(Status).reduce((acc, cur) => ({ ...acc, cur: cur.toLowerCase()}), {})
+// }
+
+
 
 /*
 7. 반환 타입을 반환하는 함수를 작성하세요.
@@ -167,8 +167,8 @@ type TProgrammingLanguages = {
 };
 
 export function getProgrammingLanguages(): TProgrammingLanguages[] {
-  return Object.entries(ProgrammingLanguage).map(([_string, program]) => {
-    return { [program.length]: program };
+  return Object.entries(ProgrammingLanguage).map(([_string, ProgrammingLanguage]) => {
+    return { [ProgrammingLanguage.length]: ProgrammingLanguage };
   });
 }
 
