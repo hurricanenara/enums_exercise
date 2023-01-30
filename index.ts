@@ -98,11 +98,11 @@ export function getSum(a: number, b: number): number {
 */
 
 export function isStatusPending(status: Status): boolean{
-  return status == Status.Pending ? true : false
+  return status == Status.Pending
 }
 
 export function isStatusComplete(status: Status): boolean{
-  return status == Status.Complete ? true : false
+  return status == Status.Complete
 }
 
 /*
