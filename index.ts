@@ -99,11 +99,11 @@ export function getSum(number1: number, number2: number): number {
 */
 
 export function isStatusPending(status: Status): boolean {
-    return status === 'Pending';
+    return status === Status.Pending;
 }
 
 export function isStatusComplete(status: Status): boolean {
-    return status === 'Complete';
+    return status === Status.Complete;
 }
 
 /*
@@ -120,26 +120,13 @@ export function isStatusComplete(status: Status): boolean {
 
 // 반환 타입
 type StatusObject = {
-    [key in Status]?: string;
+    [key in Status]?: keyof typeof Status;
 };
 
 export function getStatusObject(): StatusObject {
-    let returnObject: StatusObject = Object.keys(Status).reduce(
-        (arr: StatusObject, cur: string) => {
-            if (cur === 'Initialized') {
-                arr[cur] = 'initialized';
-            } else if (cur === 'Pending') {
-                arr[cur] = 'pending';
-            } else if (cur === 'Complete') {
-                arr[cur] = 'complete';
-            }
-
-            return arr;
-        },
-        {}
-    );
-
-    return returnObject;
+    return Object.keys(Status).reduce((arr, status) => {
+        return Object.assign(arr, { [status]: status.toLowerCase() });
+    }, {});
 }
 
 /*
@@ -163,15 +150,15 @@ export function getCars(): Car[] {
 
 // 반환 타입
 type TProgrammingLanguages = {
-    [length: number]: keyof typeof ProgrammingLanguage;
+    [length: number]: ProgrammingLanguage;
 };
 
-export function getProgrammingLanguages(): TProgrammingLanguages[] {
-    const returnValue: TProgrammingLanguages[] = Object.entries(ProgrammingLanguage).map((data) => {
-        return { [data[0].length]: data[1] };
-    });
+console.log(Object.entries(ProgrammingLanguage));
 
-    return returnValue;
+export function getProgrammingLanguages(): TProgrammingLanguages[] {
+    return Object.entries(ProgrammingLanguage).map(([language, ProgrammingLanguage]) => {
+        return { [language.length]: ProgrammingLanguage };
+    });
 }
 
 /*
@@ -215,7 +202,7 @@ string 타입 사용 금지
 
 type TCustomerCar = {
     [key: number]: {
-        customerLastName: string;
+        customerLastName: Customer['lastName'];
         car: Car;
         carColor: keyof typeof Color;
     };
