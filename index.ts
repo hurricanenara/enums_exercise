@@ -197,7 +197,7 @@ string 타입 사용 금지
 
 type TCustomerCar = {
   [value: number]: {
-    customerLastName: string;
+    customerLastName: Customer['lastName'];
     car: Car;
     carColor: keyof typeof Color;
   };
