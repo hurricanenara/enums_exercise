@@ -136,7 +136,7 @@ type StatusObject = { [key in Status]?: keyof typeof Status };
 // 보너스 .reduce 함수 사용하기
 export function getStatusObject() {
   return Object.entries(Status).reduce(
-    (acc, cur) => ({ ...acc, [cur[0]]: cur[1].toLowerCase() }),
+    (acc, [key, value]) => ({ ...acc, [key]: value.toLowerCase() }),
     {}
   );
 }
@@ -163,14 +163,14 @@ export function getCars(): Car[] {
 
 // 반환 타입
 type TProgrammingLanguages = {
-  [key: number]: keyof typeof ProgrammingLanguage;
+  [key: number]: ProgrammingLanguage;
 };
 
 export function getProgrammingLanguages(): TProgrammingLanguages[] {
   const values: TProgrammingLanguages[] = Object.entries(
     ProgrammingLanguage
-  ).map((data) => {
-    return { [data[0].length]: data[1] };
+  ).map(([key, value]) => {
+    return { [key.length]: value };
   });
   return values;
 }
