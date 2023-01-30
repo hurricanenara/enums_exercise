@@ -115,11 +115,11 @@ export function isStatusComplete(status: Status): boolean {
 */
 
 // 반환 타입
-type StatusObject = { [key in Status]?: keyof typeof Status };
+type StatusObject = { [key in Status]?: string };
 
 export function getStatusObject(): StatusObject {
-  return Object.entries(Status).reduce(
-    (acc, cur) => ({ ...acc, [cur[0]]: cur[1].toLocaleLowerCase() }),
+  return Object.values(Status).reduce(
+    (acc, cur) => ({ ...acc, [cur]: cur.toLocaleLowerCase() }),
     {}
   );
 }
@@ -151,7 +151,8 @@ export function getProgrammingLanguages(): TProgrammingLanguages[] {
   const values: TProgrammingLanguages[] = Object.entries(
     ProgrammingLanguage
   ).map((data) => {
-    return { [data[0].length]: data[1] };
+    const [string, ProgrammingLanguage] = data;
+    return { [string.length]: ProgrammingLanguage };
   });
   return values;
 }
