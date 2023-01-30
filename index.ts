@@ -120,14 +120,25 @@ export function isStatusComplete(status: Status): boolean {
 
 // 반환 타입
 type StatusObject = {
-    [key in Status]?: keyof typeof Status;
+    [key in Status]: string;
 };
 
 export function getStatusObject(): StatusObject {
-    return Object.keys(Status).reduce((arr, status) => {
-        return Object.assign(arr, { [status]: status.toLowerCase() });
-    }, {});
+    return Object.values(Status).reduce((arr, status) => {
+        arr[status] = status.toLowerCase();
+        return arr;
+    }, {} as StatusObject);
 }
+// type StatusObject = {
+//     [key in Status]: key;
+// };
+// export function getStatusObject(): StatusObject {
+//     let statusObject: StatusObject = Object.entries(Status).reduce((acc, [_str, status]) => {
+//         return Object.assign(acc, { [status]: status.toLowerCase() });
+//     }, {} as StatusObject);
+
+//     return statusObject;
+// }
 
 /*
 7. 반환 타입을 반환하는 함수를 작성하세요.
