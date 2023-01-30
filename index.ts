@@ -2,9 +2,6 @@
   Do not change
 */
 
-import { isTemplateElement } from "@babel/types";
-import { xdescribe } from "@jest/globals";
-
 // enums
 export enum Status {
   Initialized = "Initialized",
@@ -59,10 +56,10 @@ const inventory: Inventory = {
 */
 
 type TColor = {
-  [x in keyof typeof Color]: string[]
+  [x in keyof typeof Color]: string[];
 };
 
-const colors:TColor = {
+const colors: TColor = {
   Red: ["red"],
   Blue: [],
   Black: ["obsidian", "ink"],
@@ -89,8 +86,8 @@ const someTerminal: ColorKey = "Black";
   테스트를 패스 할 함수 로직 작성.
 */
 
-export function getSum(a:number, b:number):number {
-  return a + b
+export function getSum(a: number, b: number): number {
+  return a + b;
 }
 
 /*
@@ -100,16 +97,14 @@ export function getSum(a:number, b:number):number {
   테스트를 패스 할 함수 로직 작성.
 */
 
-export function isStatusPending(status:Status.Initialized | Status.Pending): boolean | undefined{
-  if (status === "Initialized") {
-    return false
-  } else if (status === "Pending") return true
+export function isStatusPending(status: Status): boolean{
+  if (status == Status.Initialized) return false;
+  return true
 }
 
-export function isStatusComplete(status: Status.Pending | Status.Complete): boolean | undefined {
-  if (status === "Pending") {
-    return false
-  } else if (status === "Complete") return true
+export function isStatusComplete(status: Status): boolean{
+  if (status === Status.Pending) return false;
+  return true
 }
 
 /*
@@ -126,15 +121,21 @@ export function isStatusComplete(status: Status.Pending | Status.Complete): bool
 
 // 반환 타입
 type StatusObject = {
-  [k in Status]?: keyof typeof Status
+  [k in Status]?: keyof typeof Status;
 };
 
 export function getStatusObject(): StatusObject {
-  const result =  Object.entries(Status).reduce((accu, curr) => ({...accu, [curr[0]]: curr[1].toLocaleLowerCase() }), {}
-  );
-  // reduce와 spread operator 같이 쓰면 시간복잡도가 두배 늘어나는데, 본 케이스의 키, 벨류에는 어떻게 다르게 적용하지?
-  return result
-  }
+  // const result = Object.entries(Status).reduce(
+  //   (accu, curr) => ({ ...accu, [curr[0]]: curr[1].toLocaleLowerCase() }),
+  //   {}
+  // );
+  // return result;
+
+  // reduce(_, status) -> entries 함수를 만나 (string, status)[] 형태로 변하여, string을 _ 로 숨겨주고,
+  // status를 구조분해할당으로 []로 감싸고, Object.assign()으로 소문자로 변환한 key:value를 새로운 객체(acc)로 복사
+    return Object.entries(Status).reduce((acc, [ _string, status]) => {
+      return Object.assign(acc, {[status]: status.toLocaleLowerCase()})}, {} as StatusObject)
+}
 
 /*
 7. 반환 타입을 반환하는 함수를 작성하세요.
@@ -142,8 +143,7 @@ export function getStatusObject(): StatusObject {
 */
 
 export function getCars(): Car[] {
-  return Object.values(Car) as Car[]
-
+  return Object.values(Car) as Car[];
 }
 
 /*
@@ -163,16 +163,14 @@ export function getCars(): Car[] {
 
 // 반환 타입
 type TProgrammingLanguages = {
-  [k: number]: keyof typeof ProgrammingLanguage
+  [k: number]: ProgrammingLanguage;
 };
 
 export function getProgrammingLanguages(): TProgrammingLanguages[] {
-  const result: TProgrammingLanguages[] = Object.entries(ProgrammingLanguage).map((program) => {
-    return { [program[0].length]: program[1]}
-  })
-  return result
-  }
-
+  return Object.entries(ProgrammingLanguage).map(([_string, program]) => {
+    return { [program.length]: program };
+  });
+}
 
 /*
 9. TOrder를 작성하고 orders 객체에 반영하세요 
@@ -180,8 +178,11 @@ export function getProgrammingLanguages(): TProgrammingLanguages[] {
 
 type TOrder = {
   [k: string]: {
-    [x: string]: Status | Color | Color[] | Customer
-  }
+    status: Status
+    color: Color
+    availableColors: Color[]
+    orderedBy: Customer
+  };
 };
 
 const orders: TOrder = {
@@ -194,7 +195,7 @@ const orders: TOrder = {
       lastName: "doe",
     },
   },
-  secondCar: {
+  secondCar:  {
     status: Status.Complete,
     color: Color.Blue,
     availableColors: [Color.Black],
@@ -212,10 +213,10 @@ string 타입 사용 금지
 
 type TCustomerCar = {
   [k: number]: {
-    customerLastName: "skywalker" | "jedi"
-    car?: Car
-    carColor?: keyof typeof Color
-  }
+    customerLastName: Customer["lastName"]
+    car: Car;
+    carColor: keyof typeof Color;
+  };
 };
 
 const customerCars: TCustomerCar = {
