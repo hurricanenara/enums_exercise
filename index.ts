@@ -44,11 +44,29 @@ type Customer = {
 type Inventory = {
   [key in keyof typeof Car]?: keyof typeof Color;
 };
+
+const inventory: Inventory = {
+  Sedan: "Red",
+  Truck: "Black",
+};
 //- enum의 key 값을 가져오기 위해서는 keyof typeof 사용
 //- 참조 : https://www.typescriptlang.org/docs/handbook/enums.html#enums-at-compile-time
 //? keyof typeof 사용하지 않고도 가능한지 궁금합니다!
 
-const inventory: Inventory = {
+//* 피드백 적용
+//? 가능합니다! Car enum이 숫자형 enum이라 keyof typeof가 필요합니다 - 문자형 enum으로 전환 후 keyof typeof 없이 사용해보세요.
+
+enum Carr {
+  Sedan = "Sedan",
+  Truck = "Truck",
+  Coupe = "Coupe",
+}
+
+type Inventoryy = {
+  [key in Carr]?: keyof typeof Color;
+};
+
+const inventoryy: Inventoryy = {
   Sedan: "Red",
   Truck: "Black",
 };
@@ -126,9 +144,12 @@ type StatusObject = {
   [x in Status]?: string;
 };
 
+//* 피드백 적용
+//? a, b보다 더 적합한 이름이 있을 것 같은데요!
+
 export function getStatusObject(): StatusObject {
-  return Object.keys(Status).reduce((a, b) => {
-    return { ...a, [b]: b.toLowerCase() };
+  return Object.keys(Status).reduce((acc, propertyKey) => {
+    return { ...acc, [propertyKey]: propertyKey.toLowerCase() };
   }, {});
 }
 
@@ -137,8 +158,11 @@ export function getStatusObject(): StatusObject {
   typecasting 사용해보기.
 */
 
+//* 피드백 적용
+//? Object.<메소드>를 사용해서 풀어보세요
+
 export function getCars(): Car[] {
-  return [0, 1, 2, 3, 4, 5, 6] as Car[];
+  return Object.values(Car) as Car[];
 }
 
 /*
@@ -152,12 +176,15 @@ export function getCars(): Car[] {
 
 // 반환 타입
 type TProgrammingLanguages = {
-  [key: number]: string;
+  [key: number]: ProgrammingLanguage;
 };
 
+//* 피드백 적용
+//? item보다 더 적합한 이름이 있을 것 같습니다 - 확인바랍니다
+
 export function getProgrammingLanguages(): TProgrammingLanguages[] {
-  return Object.entries(ProgrammingLanguage).map((item) => {
-    return { [item[0].length]: item[1] };
+  return Object.entries(ProgrammingLanguage).map((propertyKeyValue) => {
+    return { [propertyKeyValue[0].length]: propertyKeyValue[1] };
   });
 }
 
