@@ -1,12 +1,8 @@
-/*
-  Do not change
-*/
-
 // enums
 export enum Status {
-  Initialized = "Initialized",
-  Pending = "Pending",
-  Complete = "Complete",
+  Initialized = 'Initialized',
+  Pending = 'Pending',
+  Complete = 'Complete',
 }
 
 enum Color {
@@ -22,10 +18,10 @@ enum Car {
 }
 
 enum ProgrammingLanguage {
-  TypeScript = "TypeScript",
-  JavaScript = "JavaScript",
-  Python = "Python",
-  Golang = "Golang",
+  TypeScript = 'TypeScript',
+  JavaScript = 'JavaScript',
+  Python = 'Python',
+  Golang = 'Golang',
 }
 
 type Customer = {
@@ -41,11 +37,13 @@ type Customer = {
   string 키 사용 금지.
 */
 
-type Inventory = {};
+type Inventory = {
+  [key in keyof typeof Car]?: keyof typeof Color;
+};
 
 const inventory = {
-  Sedan: "Red",
-  Truck: "Black",
+  Sedan: 'Red',
+  Truck: 'Black',
 };
 
 /*
@@ -54,12 +52,14 @@ const inventory = {
   모든 키 필수.
 */
 
-type TColor = {};
+type TColor = {
+  [key in keyof typeof Color]: string[];
+};
 
 const colors = {
-  Red: ["red"],
+  Red: ['red'],
   Blue: [],
-  Black: ["obsidian", "ink"],
+  Black: ['obsidian', 'ink'],
 };
 
 /*
@@ -68,11 +68,12 @@ const colors = {
   "Red" | "Blue" | "Black" 사용 금지.
 */
 
-type ColorKey = "";
+// type Color = "Red" | "Blue" | "Black";
+type ColorKey = keyof typeof Color;
 
-const someRose: ColorKey = "Red";
-const someSky: ColorKey = "Blue";
-const someTerminal: ColorKey = "Black";
+const someRose: ColorKey = 'Red';
+const someSky: ColorKey = 'Blue';
+const someTerminal: ColorKey = 'Black';
 
 // 함수 & enum
 
@@ -83,7 +84,9 @@ const someTerminal: ColorKey = "Black";
   테스트를 패스 할 함수 로직 작성.
 */
 
-export function getSum(number1, number2) {}
+export function getSum(number1: number, number2: number): number {
+  return number1 + number2;
+}
 
 /*
 5. 다음 두 함수를 완성하세요.
@@ -92,9 +95,19 @@ export function getSum(number1, number2) {}
   테스트를 패스 할 함수 로직 작성.
 */
 
-export function isStatusPending(status) {}
+/* enum Status {
+  Initialized = 'Initialized',
+  Pending = 'Pending',
+  Complete = 'Complete',
+} */
 
-export function isStatusComplete(status) {}
+export function isStatusPending(status: Status): boolean {
+  return status === Status.Pending;
+}
+
+export function isStatusComplete(status: Status): boolean {
+  return status === Status.Complete;
+}
 
 /*
 6. 다음 함수를 완성하세요
@@ -109,16 +122,28 @@ export function isStatusComplete(status) {}
 */
 
 // 반환 타입
-type StatusObject = {};
+type StatusObject = { [key in Status]?: string };
 
-export function getStatusObject() {}
+export function getStatusObject(): StatusObject {
+  return Object.keys(Status).reduce((accumulator, value) => {
+    return { ...accumulator, [value]: value.toLowerCase() };
+  }, {});
+}
 
 /*
 7. 반환 타입을 반환하는 함수를 작성하세요.
   typecasting 사용해보기.
 */
 
-export function getCars(): Car[] {}
+/* enum Car {
+  Sedan,
+  Truck,
+  Coupe,
+} */
+
+export function getCars(mycar: Car[]): Car[] {
+  return mycar as Car[];
+}
 
 /*
 8. 다음 함수를 완성하세요.
@@ -129,25 +154,64 @@ export function getCars(): Car[] {}
 예: { 10: TypeScript } | key는 value의 length
 */
 
-// 반환 타입
-type TProgrammingLanguages = "";
+/* 
+enum ProgrammingLanguage {
+  TypeScript = 'TypeScript',
+  JavaScript = 'JavaScript',
+  Python = 'Python',
+  Golang = 'Golang',
+}
+*/
 
-export function getProgrammingLanguages() {}
+// 반환 타입
+type TProgrammingLanguages = { [key: number]: string };
+
+export function getProgrammingLanguages(): TProgrammingLanguages[] {
+  return Object.entries(ProgrammingLanguage).map((status) => {
+    return { [status[0].length]: status[1] };
+  });
+}
 
 /*
 9. TOrder를 작성하고 orders 객체에 반영하세요 
 */
 
-type TOrder = {};
+/* 
+type Customer = {
+  firstName: string;
+  lastName: string;
+};
 
-const orders = {
+export enum Status {
+    Initialized = 'Initialized',
+    Pending = 'Pending',
+    Complete = 'Complete',
+}
+
+enum Color {
+    Red,
+    Blue,
+    Black,
+} 
+*/
+
+type TOrder = {
+  [key in string]: {
+    status: Status;
+    color: Color;
+    availableColors: [Color];
+    orderedBy: { [key in string]: string };
+  };
+};
+
+const orders: TOrder = {
   firstCar: {
     status: Status.Initialized,
     color: Color.Black,
     availableColors: [Color.Red],
     orderedBy: {
-      firstName: "jane",
-      lastName: "doe",
+      firstName: 'jane',
+      lastName: 'doe',
     },
   },
   secondCar: {
@@ -155,8 +219,8 @@ const orders = {
     color: Color.Blue,
     availableColors: [Color.Black],
     orderedBy: {
-      firstName: "john",
-      lastName: "doe",
+      firstName: 'john',
+      lastName: 'doe',
     },
   },
 };
@@ -166,17 +230,23 @@ const orders = {
 string 타입 사용 금지
 */
 
-type TCustomerCar = {};
+type TCustomerCar = {
+  number: {
+    customerLastName: string;
+    car: Car;
+    carColor: string;
+  };
+};
 
 const customerCars = {
   1: {
-    customerLastName: "skywalker",
+    customerLastName: 'skywalker',
     car: Car.Coupe,
-    carColor: "Red",
+    carColor: 'Red',
   },
   2: {
-    customerLastName: "jedi",
+    customerLastName: 'jedi',
     car: Car.Sedan,
-    carColor: "Blue",
+    carColor: 'Blue',
   },
 };
