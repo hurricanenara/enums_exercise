@@ -168,10 +168,18 @@ export function getProgrammingLanguages() : TProgrammingLanguages[] {
 /*
 9. TOrder를 작성하고 orders 객체에 반영하세요 
 */
+type CarOrder = {
+  status : Status
+  color : Color
+  availableColors : [Color]
+  orderedBy : Customer
+}
 
-type TOrder = {};
+type TOrder = {
+  [key:string] : CarOrder
+};
 
-const orders = {
+const orders : TOrder = {
   firstCar: {
     status: Status.Initialized,
     color: Color.Black,
@@ -196,10 +204,16 @@ const orders = {
 10. TCustomerCar를 작성하고 customerCars 객체에 반영하세요
 string 타입 사용 금지
 */
+type CustumerInfo = {
+  customerLastName : string
+  car : Car
+  carColor : keyof typeof Color
+}
+type TCustomerCar = {
+  [key:number] : CustumerInfo
+};
 
-type TCustomerCar = {};
-
-const customerCars = {
+const customerCars : TCustomerCar = {
   1: {
     customerLastName: "skywalker",
     car: Car.Coupe,
