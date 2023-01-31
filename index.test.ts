@@ -7,26 +7,31 @@ import {
   jest,
 } from "@jest/globals";
 import {
-  getProgrammingLanguages,
   Status,
   getSum,
   isStatusPending,
-  getStatusObject,
   isStatusComplete,
+  getStatusObject,
+  getCars,
+  getProgrammingLanguages,
 } from "./index";
 
+
+// 이건 왜 하는 건지..?
 describe("Status enum", () => {
   it("returns a list of status array", () => {
     expect(Object.keys(Status)).toHaveLength(3);
   });
 });
 
+// #4. 
 describe("#getSum", () => {
   it("getSums correctly", () => {
     expect(getSum(1, 2)).toBe(3);
   });
 });
 
+// #5-1. 
 describe("#isStatusPending", () => {
   it("returns false if status isn't pending", () => {
     expect(isStatusPending(Status.Initialized)).toBe(false);
@@ -37,7 +42,8 @@ describe("#isStatusPending", () => {
   });
 });
 
-describe("#isStatusComplete", () => {
+// #5-2. 
+describe("#5. isStatusComplete", () => {
   it("returns false if status isn't complete", () => {
     expect(isStatusComplete(Status.Pending)).toBe(false);
   });
@@ -47,7 +53,8 @@ describe("#isStatusComplete", () => {
   });
 });
 
-describe("#getStatusObject", () => {
+// #6-1.
+describe("#6. getStatusObject", () => {
   it("returns the correct object", () => {
     expect(getStatusObject()).toEqual({
       Initialized: "initialized",
@@ -57,7 +64,8 @@ describe("#getStatusObject", () => {
   });
 });
 
-describe("🌟BONUS: #getStatusObject is called with .reduce", () => {
+// #6-2. 
+describe("🌟BONUS: #6. getStatusObject is called with .reduce", () => {
   beforeEach(() => {
     jest.spyOn(Array.prototype, "reduce");
   });
@@ -75,7 +83,8 @@ describe("🌟BONUS: #getStatusObject is called with .reduce", () => {
   });
 });
 
-describe("#getProgrammingLanguages", () => {
+// #8. 
+describe("#8. getProgrammingLanguages", () => {
   beforeEach(() => {
     jest.spyOn(Object, "entries");
   });
@@ -92,4 +101,5 @@ describe("#getProgrammingLanguages", () => {
       { 6: "Golang" },
     ]);
   });
+  
 });
