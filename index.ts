@@ -122,7 +122,7 @@ export function isStatusComplete(status: Status): boolean {
 type StatusObject = { [key in Status]?: string };
 
 export function getStatusObject(): StatusObject {
-  return Object.keys(Status).reduce((result, status) => {
+  return Object.values(Status).reduce((result, status) => {
     return { ...result, [status]: status.toLowerCase() };
   }, {});
 }
@@ -132,8 +132,8 @@ export function getStatusObject(): StatusObject {
   typecasting 사용해보기.
 */
 
-export function getCars(any: Car): Car[] {
-  return [any] as Car[];
+export function getCars(key: Car): Car[] {
+  return [key] as Car[];
 }
 
 /*
@@ -146,11 +146,11 @@ export function getCars(any: Car): Car[] {
 */
 
 // 반환 타입
-type TProgrammingLanguages = { [key: number]: string };
+type TProgrammingLanguages = { [key: number]: ProgrammingLanguage };
 
 export function getProgrammingLanguages(): TProgrammingLanguages[] {
-  return Object.entries(ProgrammingLanguage).map((result) => {
-    return { [result[0].length]: result[1] };
+  return Object.entries(ProgrammingLanguage).map(([key, value]) => {
+    return { [key.length]: value };
   });
 }
 
