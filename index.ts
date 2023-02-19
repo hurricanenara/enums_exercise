@@ -98,13 +98,11 @@ export function getSum(number1:number, number2:number):number {
 */
 
 export function isStatusPending(status: Status):boolean {
-    if(status === Status.Pending) return true
-    else return false
+    return status === Status.Pending
 }
 
 export function isStatusComplete(status: Status):boolean {
-    if(status === Status.Complete) return true
-    else return false
+    return status === Status.Complete
 }
 
 /*
@@ -166,7 +164,7 @@ type TProgrammingLanguages = {
 
 
 export function getProgrammingLanguages():TProgrammingLanguages[] {
-    const answer: TProgrammingLanguages[] = Object.entries(ProgrammingLanguage).map(([str, programmingLanguage], index) => {
+    const answer: TProgrammingLanguages[] = Object.entries(ProgrammingLanguage).map(([str, programmingLanguage], _index) => {
         return {
             [str.length]: programmingLanguage
         }
@@ -181,7 +179,7 @@ export function getProgrammingLanguages():TProgrammingLanguages[] {
 
 type TOrder = {
     [key:string]: {
-        status: keyof typeof Status,
+        status: Status,
         color: number,
         availableColors: [number],
         orderedBy: Customer
